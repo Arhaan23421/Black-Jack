@@ -169,38 +169,51 @@ private:
   vector<Card *> cards;
 };
 
-/*   
-Dealer:
-  ┌──┐┌──┐
-  │  ││T♠│
-  └──┘└──┘
 
-Player:
-  ┌──┐┌──┐
-  │A♣││T♠│
-  └──┘└──┘
-*/
 void displayCards(vector<Card *> playerCards, vector<Card *> dealerCards, bool showDealer)
 {
-  string d = "";
+  string s = "";
   for(int i=0; i<dealerCards.size(); i++)
   {
-    if(i == 0  && !showDealer)
+    s += "┌──┐";
+  }
+  s += "\n";
+  for(int i=0; i<dealerCards.size(); i++)
+  {
+    if(showDealer)
     {
-      d += "??";
+      s += "│" + dealerCards[i]->getSymbol() +"│" ;
     }
     else
     {
-      d += dealerCards[i]->getSymbol();
+      s+= "│? │" ;
+      showDealer =!showDealer;
     }
   }
-  cout << "These are the dealers cards: " + d << endl;
-  string s = "";
+  s += "\n";
+  for(int i=0; i<dealerCards.size(); i++)
+  {
+    s += "└──┘";
+  }
+  cout << "These are the dealer's cards:\n" + s << endl;
+
+
+  string dc = "";
   for(int i=0; i<playerCards.size(); i++)
   {
-    s += playerCards[i]->getSymbol();
+    dc+= "┌──┐";
   }
-  cout << "These are the player cards: " + s << endl;
+  dc+= "\n";
+  for(int i=0; i<playerCards.size(); i++)
+  {
+    dc+= "│" + playerCards[i]->getSymbol() +"│" ;
+  }
+  dc+= "\n";
+  for(int i=0; i<playerCards.size(); i++)
+  {
+    dc+= "└──┘";
+  }
+  cout << "These are the player cards:\n" + dc << endl;
 }
 
 
@@ -231,7 +244,7 @@ int main() {
     dealerCards.clear();
     dealerCards.push_back(d.drawACard());
     dealerCards.push_back(d.drawACard());
-  
+
     string stor;
     // Player Turn
     displayCards(playerCards, dealerCards, false);
@@ -239,7 +252,7 @@ int main() {
     {
       cout << " do you want another card?" << endl;
       getline(cin, stor);
-    
+
       while(stor.compare("yes") == 0)
       {
         playerCards.push_back(d.drawACard());
@@ -262,10 +275,10 @@ int main() {
     {
       cout << "Blackjack!" << endl;
     }
-  
+
     cout << "Press Enter to continue...";
     getline(cin, stor);
-    
+
     // Dealer Turn
     displayCards(playerCards, dealerCards, true);
     while (calculateSum(dealerCards) <= 16)
@@ -288,11 +301,11 @@ int main() {
     {
       cout<< " dealer stays" << endl;
     }
-  
+
     cout << "Press Enter to continue...";
     getline(cin, stor);
-  
-  
+
+
     // End of game
     if(calculateSum(dealerCards)>21 && calculateSum(playerCards)<=21)
     {
@@ -322,7 +335,7 @@ int main() {
     {
       cout << " you tied" << endl;
     }
-    
+
     string ss = "";
     cout << " do you want to play again?";
     getline(cin, ss);
@@ -335,19 +348,8 @@ int main() {
 }
 
 /*
-  Blackjack:
-    User Experience:
-      * Give the player 2 cards
-      * Display those two cards to the user
-      * Give the dealer 2 cards
-      * Display one of the dealer's cards
-      * Ask user if they want another card
-      * If the user says yes, give them a card (and repeat)
-      * Dealer decides what they want to do
-      * Determine who wins
-      * Play again?
-
-    Other ideas:
-      * Add betting
-      * Add record (wins/loses)
+  Future Features:
+    * Add betting
+    * Add record (wins/loses)
+    * Improve user interface
 */
